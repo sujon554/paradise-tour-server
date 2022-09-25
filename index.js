@@ -4,24 +4,25 @@ const cors = require("cors");
 const ObjectId = require("mongodb").ObjectId;
 const app = express();
 const port = process.env.PORT || 5000;
+require('dotenv').config()
 
 app.use(cors());
 app.use(express.json());
 
 const uri =
-  "mongodb+srv://tours:aoHjdwxJ3OiDfEoC@cluster0.ad0jo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+  `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ad0jo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-console.log(uri);
+
 
 async function run() {
   try {
     await client.connect();
     console.log("success connect database");
-    const database = client.db("tours");
-    const tourCollection = database.collection("tour");
+    const database = client.db("travels");
+    const tourCollection = database.collection("tours");
     const orderCollection = database.collection("orders");
 
     //Get My Orders by email
